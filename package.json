@@ -1,0 +1,46 @@
+{
+    "name": "typescript-modules",
+    "version": "0.2.0",
+    "license": "ISC",
+    "author": {
+        "name": "Lixquid",
+        "url": "https://lixquid.com/"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://gitlab.com/lixquid/typescript-modules.git"
+    },
+    "homepage": "https://gitlab.com/lixquid/typescript-modules#readme",
+    "bugs": {
+        "url": "https://gitlab.com/lixquid/typescript-modules/issues"
+    },
+    "private": true,
+    "scripts": {
+        "test": "jest",
+        "build": "tsc",
+        "doc": "typedoc --module commonjs --out docs",
+        "docserve": "typedoc --module commonjs --out docs && npx http-server docs"
+    },
+    "devDependencies": {
+        "@types/jest": "^24.0.25",
+        "jest": "^24.9.0",
+        "prettier": "^1.19.1",
+        "ts-jest": "^24.2.0",
+        "typedoc": "^0.15.6",
+        "typescript": "^3.7.4"
+    },
+    "prettier": {
+        "tabWidth": 4
+    },
+    "jest": {
+        "roots": [
+            "test"
+        ],
+        "testMatch": [
+            "**/*.+ts"
+        ],
+        "transform": {
+            "^.+\\.ts$": "ts-jest"
+        }
+    }
+}
