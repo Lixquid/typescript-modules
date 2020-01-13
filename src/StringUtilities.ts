@@ -1,4 +1,4 @@
-const formatPlaceholder = /\$\{([^,:}]+)\}/g;
+const formatPlaceholder = /\$\{([^,:}]+)(?:,([^,:}]*))?\}/g;
 
 /**
  * Thrown from {@link format} when a key is not found in a substitution object.
@@ -18,9 +18,32 @@ export class FormatKeyMissingError extends Error {
 }
 
 /**
+ * Thrown from {@link format} when an invalid alignment is specified.
+ *
+ * @exports
+ * @class InvalidAlignmentError
+ * @extends {Error}
+ */
+export class InvalidAlignmentError extends Error {
+    public invalidAlignment: string;
+
+    constructor(message: string, alignmentString: string) {
+        super(message);
+        this.invalidAlignment = alignmentString;
+        this.name = "InvalidAlignmentError";
+    }
+}
+
+/**
  * Formats a string with placeholders with substitutions.
  *
- * Placeholders take the form `${key}`.
+ * Placeholders take the form `${key(,alignment)(:format)}`, with `alignment`
+ * and `format` being optional.
+ *
+ * `alignment` specifies a minimum width for the placeholder, with smaller
+ * strings being padded with the U+0020 space character. A positive alignment
+ * number will pad the beginning, and a negative alignment number will pad the
+ * end.
  *
  * @export
  * @param {string} input The string with placeholders.
@@ -29,6 +52,8 @@ export class FormatKeyMissingError extends Error {
  * @returns The `input` with placeholders substituted.
  * @throws {FormatKeyMissingError} Thrown when a placeholder contains a key not
  * present in `substitutions`.
+ * @throws {InvalidAlignmentError} Thrown when an alignment string is not a
+ * valid number.
  */
 export function format(
     input: string,
@@ -37,7 +62,13 @@ export function format(
 /**
  * Formats a string with placeholders with substitutions.
  *
- * Placeholders take the form `${key}`.
+ * Placeholders take the form `${key(,alignment)(:format)}`, with `alignment`
+ * and `format` being optional.
+ *
+ * `alignment` specifies a minimum width for the placeholder, with smaller
+ * strings being padded with the U+0020 space character. A positive alignment
+ * number will pad the beginning, and a negative alignment number will pad the
+ * end.
  *
  * @export
  * @param {string} input The string with placeholders.
@@ -46,6 +77,8 @@ export function format(
  * @returns The `input` with placeholders substituted.
  * @throws {FormatKeyMissingError} Thrown when `substitutionFn` returns
  * `undefined`.
+ * @throws {InvalidAlignmentError} Thrown when an alignment string is not a
+ * valid number.
  */
 export function format(
     input: string,
@@ -60,11 +93,30 @@ export function format(
         typeof sub === "function"
             ? (key: string) => sub(key)
             : (key: string) => (sub.hasOwnProperty(key) ? sub[key] : undefined);
-    return input.replace(formatPlaceholder, (_, key: string) => {
-        const result = matchFn(key);
-        if (result === undefined) {
-            throw new FormatKeyMissingError(`Key not found: ${key}`, key);
+    return input.replace(
+        formatPlaceholder,
+        (_, key: string, alignmentString?: string) => {
+            const result = matchFn(key);
+            if (result === undefined) {
+                throw new FormatKeyMissingError(`Key not found: ${key}`, key);
+            }
+            let output = "" + result;
+            if (alignmentString) {
+                const alignment = parseInt(alignmentString);
+                if (isNaN(alignment)) {
+                    throw new InvalidAlignmentError(
+                        `Invalid alignment: ${alignmentString}`,
+                        alignmentString
+                    );
+                }
+
+                if (alignment < 0) {
+                    output = output.padEnd(-alignment);
+                } else {
+                    output = output.padStart(alignment);
+                }
+            }
+            return output;
         }
-        return "" + result;
-    });
+    );
 }

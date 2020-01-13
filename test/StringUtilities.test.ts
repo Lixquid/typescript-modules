@@ -30,4 +30,24 @@ describe("format", () => {
             expect(fn).toHaveBeenCalledWith("key");
         });
     });
+    describe("alignment", () => {
+        it("should not pad when the result string is larger than the alignment value", () => {
+            expect(format("Hello ${key,5}", { key: "long string" })).toBe(
+                "Hello long string"
+            );
+            expect(format("Hello ${key,-5}", { key: "long string" })).toBe(
+                "Hello long string"
+            );
+        });
+        it("should pad strings on the left when given a positive alignment value", () => {
+            expect(format("|${key, 15}|", { key: "12345" })).toBe(
+                "|          12345|"
+            );
+        });
+        it("should pad strings on the right when given a negative alignment value", () => {
+            expect(format("|${key,-15}|", { key: "12345" })).toBe(
+                "|12345          |"
+            );
+        });
+    });
 });
