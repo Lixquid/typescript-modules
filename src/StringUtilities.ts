@@ -58,11 +58,11 @@ export function format(
         typeof sub === "function"
             ? (key: string) => sub(key)
             : (key: string) => (sub.hasOwnProperty(key) ? sub[key] : undefined);
-    return input.replace(formatPlaceholder, (_, key) => {
-        const result = matchFn("" + key);
+    return input.replace(formatPlaceholder, (_, key: string) => {
+        const result = matchFn(key);
         if (result === undefined) {
-            throw new FormatKeyMissingError(`Key not found: ${key}`, "" + key);
+            throw new FormatKeyMissingError(`Key not found: ${key}`, key);
         }
-        return "" + result;
+        return result;
     });
 }
