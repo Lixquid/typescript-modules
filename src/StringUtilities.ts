@@ -44,8 +44,6 @@ export function format(
  * @param {(key: string) => string} substitutionFn The function to return the
  * string to be substituted.
  * @returns The `input` with placeholders substituted.
- * @throws {FormatKeyMissingError} Thrown when a placeholder contains a key not
- * present in `substitutions`.
  */
 export function format(
     input: string,
