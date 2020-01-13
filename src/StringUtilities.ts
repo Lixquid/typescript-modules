@@ -24,7 +24,7 @@ export class FormatKeyMissingError extends Error {
  *
  * @export
  * @param {string} input The string with placeholders.
- * @param {{ [key: string]: string }} substitutions An object containing keys
+ * @param {{ [key: string]: unknown }} substitutions An object containing keys
  * to substitute.
  * @returns The `input` with placeholders substituted.
  * @throws {FormatKeyMissingError} Thrown when a placeholder contains a key not
@@ -41,9 +41,11 @@ export function format(
  *
  * @export
  * @param {string} input The string with placeholders.
- * @param {(key: string) => string} substitutionFn The function to return the
+ * @param {(key: string) => unknown} substitutionFn The function to return the
  * string to be substituted.
  * @returns The `input` with placeholders substituted.
+ * @throws {FormatKeyMissingError} Thrown when `substitutionFn` returns
+ * `undefined`.
  */
 export function format(
     input: string,
@@ -52,7 +54,7 @@ export function format(
 
 export function format(
     input: string,
-    sub: { [key: string]: string } | ((key: string) => string)
+    sub: { [key: string]: unknown } | ((key: string) => unknown)
 ): string {
     const matchFn =
         typeof sub === "function"
@@ -63,6 +65,6 @@ export function format(
         if (result === undefined) {
             throw new FormatKeyMissingError(`Key not found: ${key}`, key);
         }
-        return result;
+        return "" + result;
     });
 }
