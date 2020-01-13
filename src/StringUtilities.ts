@@ -7,7 +7,7 @@ const formatPlaceholder = /\$\{([^,:}]+)\}/g;
  * @class FormatKeyMissingError
  * @extends {Error}
  */
-export class FormatKeyMissingErrorw extends Error {
+export class FormatKeyMissingError extends Error {
     public missingKey: string;
 
     constructor(message: string, key: string) {
@@ -63,7 +63,7 @@ export function format(
     return input.replace(formatPlaceholder, (_, key) => {
         const result = matchFn("" + key);
         if (result === undefined) {
-            throw new FormatKeyMissingErrorw(`Key not found: ${key}`, "" + key);
+            throw new FormatKeyMissingError(`Key not found: ${key}`, "" + key);
         }
         return "" + result;
     });
