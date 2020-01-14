@@ -57,7 +57,7 @@ export class InvalidAlignmentError extends Error {
  */
 export function format(
     input: string,
-    substitutions: { [key: string]: any }
+    substitutions: { [key: string]: unknown }
 ): string;
 /**
  * Formats a string with placeholders with substitutions.
@@ -82,7 +82,7 @@ export function format(
  */
 export function format(
     input: string,
-    substitutionFn: (key: string) => string
+    substitutionFn: (key: string) => unknown
 ): string;
 
 export function format(
