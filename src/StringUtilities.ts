@@ -92,14 +92,19 @@ export function format(
     const matchFn =
         typeof sub === "function"
             ? (key: string) => sub(key)
-            : (key: string) => (sub.hasOwnProperty(key) ? sub[key] : undefined);
+            : (key: string) => {
+                  if (!sub.hasOwnProperty(key)) {
+                      throw new FormatKeyMissingError(
+                          `Key not found: ${key}`,
+                          key
+                      );
+                  }
+                  return sub[key];
+              };
     return input.replace(
         formatPlaceholder,
         (_, key: string, alignmentString?: string) => {
             const result = matchFn(key);
-            if (result === undefined) {
-                throw new FormatKeyMissingError(`Key not found: ${key}`, key);
-            }
             let output = "" + result;
             if (alignmentString) {
                 const alignment = parseInt(alignmentString);
