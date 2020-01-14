@@ -1,4 +1,4 @@
-const formatPlaceholder = /\$\{([^,:}]+)(?:,([^,:}]*))?\}/g;
+const formatPlaceholder = /\$\{([^,:}]+?)(?:,([^,:}]*?))?\}/g;
 
 /**
  * Thrown from {@link format} when a key is not found in a substitution object.
