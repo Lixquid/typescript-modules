@@ -27,7 +27,7 @@ describe("format", () => {
 
         it("should substitute placeholders when given a substitution function", () => {
             expect(format("Hello ${key}!", fn)).toBe("Hello hello!");
-            expect(fn).toHaveBeenCalledWith("key");
+            expect(fn).toHaveBeenCalledWith("key", undefined);
         });
     });
     describe("alignment", () => {
