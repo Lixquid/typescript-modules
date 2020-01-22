@@ -41,6 +41,10 @@ export const cryptoRandomSource: RandomSource = function(
     throw new Error("No crypto source available");
 };
 
+export function cryptoRandomSourceAvailable(): boolean {
+    return (crypto ?? msCrypto) != null;
+}
+
 export type RandomSource = (count: number) => number[];
 
 export function randomInteger(max: number, source?: RandomSource): number;
