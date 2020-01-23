@@ -1,23 +1,3 @@
-interface BrowserCrypto {
-    /**
-     * @see https://developer.mozilla.org/en-US/docs/Web/API/Crypto/getRandomValues
-     */
-    getRandomValues: (
-        typedArray:
-            | Int8Array
-            | Int16Array
-            | Int32Array
-            | Uint8Array
-            | Uint16Array
-            | Uint32Array
-    ) => void;
-}
-
-declare global {
-    const crypto: BrowserCrypto | undefined;
-    const msCrypto: BrowserCrypto | undefined;
-}
-
 /**
  * Thrown from {@link cryptoRandomSource} when no source of cryptographically
  * strong random numbers are available.

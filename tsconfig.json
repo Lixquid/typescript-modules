@@ -2,7 +2,10 @@
     "compilerOptions": {
         "strict": true,
         "outDir": "build",
-        "lib": ["es6"]
+        "lib": ["es6", "dom", "ES2017.String"],
+        "declaration": true
     },
-    "include": ["src/**/*"]
+    "files": ["src/private/globals.d.ts"],
+    "include": ["src/**/*"],
+    "exclude": ["src/private/**/*"]
 }
