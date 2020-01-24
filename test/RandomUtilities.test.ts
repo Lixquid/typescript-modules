@@ -8,7 +8,7 @@ import {
 } from "../src/RandomUtilities";
 
 function repeat(fn: Function): () => void {
-    return () => {
+    return (): void => {
         for (let i = 0; i < 300; i++) {
             fn();
         }
@@ -16,7 +16,8 @@ function repeat(fn: Function): () => void {
 }
 
 const mockRandomSource = jest.fn((count: number) =>
-    Array.apply(null, { length: count } as any).map((_: unknown) => 0.5)
+    // eslint-disable-next-line prefer-spread
+    Array.apply(null, { length: count } as any).map(() => 0.5)
 );
 
 beforeEach(() => mockRandomSource.mockClear());

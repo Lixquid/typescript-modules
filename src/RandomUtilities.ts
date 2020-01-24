@@ -76,45 +76,6 @@ export function cryptoRandomSourceAvailable(): boolean {
 export type RandomSource = (count: number) => number[];
 
 /**
- * Returns a random integer between 0 (inclusive) and `max` (exclusive).
- *
- * @export
- * @param {number} max The exclusive maximum to generate.
- * @param {RandomSource} [source] The source of random numbers to use. If
- * omitted, {@link mathRandomSource} will be used.
- * @returns {number} A random integer between 0 (inclusive) and `max`
- * (exclusive).
- */
-export function randomInteger(max: number, source?: RandomSource): number;
-/**
- * Returns a random integer between `min` (inclusive) and `max` (exclusive). If
- * `max` is less than `min`, `max` and `min` are swapped.
- *
- * @export
- * @param {number} min The inclusive minimum to generate.
- * @param {number} max The exclusive maximum to generate.
- * @param {RandomSource} [source] The source of random numbers to use. If
- * omitted, {@link mathRandomSource} will be used.
- * @returns {number} A random integer between `min` (inclusive) and `max`
- * (exclusive).
- */
-export function randomInteger(
-    min: number,
-    max: number,
-    source?: RandomSource
-): number;
-
-export function randomInteger(
-    minMax: number,
-    maxSource?: number | RandomSource,
-    source?: RandomSource
-): number {
-    return Math.floor(
-        randomFloat(minMax as any, maxSource as any, source as any)
-    );
-}
-
-/**
  * Returns a random float between 0 (inclusive) and 1 (exclusive).
  *
  * @export
@@ -181,6 +142,45 @@ export function randomFloat(
 
     // Calculate random value
     return source(1)[0] * (max - min) + min;
+}
+
+/**
+ * Returns a random integer between 0 (inclusive) and `max` (exclusive).
+ *
+ * @export
+ * @param {number} max The exclusive maximum to generate.
+ * @param {RandomSource} [source] The source of random numbers to use. If
+ * omitted, {@link mathRandomSource} will be used.
+ * @returns {number} A random integer between 0 (inclusive) and `max`
+ * (exclusive).
+ */
+export function randomInteger(max: number, source?: RandomSource): number;
+/**
+ * Returns a random integer between `min` (inclusive) and `max` (exclusive). If
+ * `max` is less than `min`, `max` and `min` are swapped.
+ *
+ * @export
+ * @param {number} min The inclusive minimum to generate.
+ * @param {number} max The exclusive maximum to generate.
+ * @param {RandomSource} [source] The source of random numbers to use. If
+ * omitted, {@link mathRandomSource} will be used.
+ * @returns {number} A random integer between `min` (inclusive) and `max`
+ * (exclusive).
+ */
+export function randomInteger(
+    min: number,
+    max: number,
+    source?: RandomSource
+): number;
+
+export function randomInteger(
+    minMax: number,
+    maxSource?: number | RandomSource,
+    source?: RandomSource
+): number {
+    return Math.floor(
+        randomFloat(minMax as any, maxSource as any, source as any)
+    );
 }
 
 /**

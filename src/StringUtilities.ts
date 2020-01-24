@@ -166,6 +166,10 @@ export function formatValue(
                             locale
                         ).padStart(IntOr(formatExec[2], 0), "0")
                     );
+                default:
+                    throw new Error(
+                        "Unknown numeric format case, should never ever happen"
+                    );
             }
         default:
             if (formatString !== "") {
@@ -247,9 +251,10 @@ export function format(
 ): string {
     const matchFn =
         typeof sub === "function"
-            ? (key: string, formatString?: string) => sub(key, formatString)
-            : (key: string, formatString?: string) => {
-                  if (!sub.hasOwnProperty(key)) {
+            ? (key: string, formatString?: string): unknown =>
+                  sub(key, formatString)
+            : (key: string, formatString?: string): unknown => {
+                  if (!Object.prototype.hasOwnProperty.call(sub, key)) {
                       throw new FormatKeyMissingError(
                           `Key not found: ${key}`,
                           key

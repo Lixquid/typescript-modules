@@ -45,7 +45,11 @@ if (!String.prototype.padStart) {
  *        If this string is too long, it will be truncated and the left-most part will be applied.
  *        The default value for this parameter is " " (U+0020).
  */
-function stringPadEnd(this: string, maxLength: number, fillString?: string) {
+function stringPadEnd(
+    this: string,
+    maxLength: number,
+    fillString?: string
+): string {
     maxLength = maxLength >> 0; //floor if number or convert non-number to 0;
     fillString = String(typeof fillString !== "undefined" ? fillString : " ");
     if (this.length > maxLength) {
